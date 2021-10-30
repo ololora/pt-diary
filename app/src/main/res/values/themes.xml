@@ -26,7 +26,7 @@
         <item name="rippleColor">@color/manatee</item>
     </style>
 
-    <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Light">
+    <style name="ToolbarStyle" parent="@style/Base.V7.Widget.AppCompat.Toolbar">
         <item name="android:background">@color/manatee</item>
     </style>
 </resources>
