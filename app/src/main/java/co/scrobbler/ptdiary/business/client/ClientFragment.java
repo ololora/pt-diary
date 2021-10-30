@@ -4,16 +4,23 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import javax.inject.Inject;
 
 import co.scrobbler.ptdiary.MyApplication;
-import co.scrobbler.ptdiary.business.schedule.ScheduleFragment;
+import co.scrobbler.ptdiary.R;
+import co.scrobbler.ptdiary.business.client.adapters.ClientsAdapter;
 import co.scrobbler.ptdiary.databinding.ClientFragmentBinding;
 
 public class ClientFragment extends Fragment {
@@ -29,6 +36,7 @@ public class ClientFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         ((MyApplication) getActivity().getApplicationContext()).getAppComponent().inject(this);
+        setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
 
@@ -37,6 +45,56 @@ public class ClientFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = ClientFragmentBinding.inflate(getLayoutInflater());
+
+        binding.clientsList.setAdapter(new ClientsAdapter(new Client[] {
+                CreateTestClient("William H. Perez"),
+                CreateTestClient("Lucy C. Edwards"),
+                CreateTestClient("Donald S. Coleman"),
+                CreateTestClient("Robert K. Dangelo"),
+                CreateTestClient("Debra C. Macdonald"),
+                CreateTestClient("Robin S. Strange"),
+                CreateTestClient("Debbie J. Walker"),
+                CreateTestClient("Roberta L. Jordan"),
+                CreateTestClient("Carl D. Andrews"),
+                CreateTestClient("Harold L. Elliott"),
+                CreateTestClient("Danny B. Brouwer"),
+                CreateTestClient("Alex C. Birchfield"),
+                CreateTestClient("Frieda P. Hoover"),
+                CreateTestClient("Phil D. Weller"),
+                CreateTestClient("Lynette J. Barbour"),
+                CreateTestClient("Alex S. Robinson"),
+                CreateTestClient("Irene B. Nash"),
+        }));
+        binding.clientsList.setLayoutManager(new LinearLayoutManager(getContext()));
         return binding.getRoot();
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.clear();
+        inflater.inflate(R.menu.client_toolbar_menu, menu);
+        MenuItem item = menu.findItem(R.id.action_search);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        SearchView searchView = (SearchView) item.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+    }
+
+    private static Client CreateTestClient(String name)
+    {
+        Client client = new Client();
+        client.name = name;
+        return client;
     }
 }
