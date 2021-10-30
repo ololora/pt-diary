@@ -1,11 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="primary_light">#FF484848</color>
-    <color name="primary">#FF212121</color>
-    <color name="primary_dark">#000000</color>
-    <color name="secondary_light">#FFf05545</color>
-    <color name="secondary">#FFb71c1c</color>
-    <color name="secondary_dark">#FF7f0000</color>
+    <color name="space_cadet">#2B2D42</color>
+    <color name="manatee">#8D99AE</color>
+    <color name="alice_blue">#EDF2F4</color>
+    <color name="imperial_red">#EF233C</color>
+    <color name="amaranth_red">#D90429</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 </resources>

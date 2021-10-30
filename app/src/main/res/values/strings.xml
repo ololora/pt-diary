@@ -2,6 +2,6 @@
     <string name="app_name">Personal Trainer Diary</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_schedule">Schedule</string>
-    <string name="title_client">Client</string>
-    <string name="title_exercise">Exercise</string>
+    <string name="title_clients">Clients</string>
+    <string name="title_exercises">Exercises</string>
 </resources>
