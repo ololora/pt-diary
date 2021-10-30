@@ -7,4 +7,7 @@
     <string name="title_client_create">New client</string>
 
     <string name="clients_fab_description">Add new client</string>
+
+    <string name="client_name">Name</string>
+    <string name="client_notes">Notes</string>
 </resources>
