@@ -1,20 +1,19 @@
 package co.scrobbler.ptdiary.business.client;
 
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
+import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
@@ -46,7 +45,10 @@ public class ClientFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = ClientFragmentBinding.inflate(getLayoutInflater());
 
-        binding.clientsList.setAdapter(new ClientsAdapter(new Client[] {
+        binding.fab.setOnClickListener(v -> Navigation.findNavController(requireActivity(),
+                R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_client_create));
+
+        binding.clientsList.setAdapter(new ClientsAdapter(new Client[]{
                 CreateTestClient("William H. Perez"),
                 CreateTestClient("Lucy C. Edwards"),
                 CreateTestClient("Donald S. Coleman"),
@@ -75,7 +77,8 @@ public class ClientFragment extends Fragment {
         menu.clear();
         inflater.inflate(R.menu.client_toolbar_menu, menu);
         MenuItem item = menu.findItem(R.id.action_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
+                | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         SearchView searchView = (SearchView) item.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -91,8 +94,7 @@ public class ClientFragment extends Fragment {
         });
     }
 
-    private static Client CreateTestClient(String name)
-    {
+    private static Client CreateTestClient(String name) {
         Client client = new Client();
         client.name = name;
         return client;

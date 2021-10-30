@@ -15,11 +15,20 @@
         android:id="@+id/navigation_client"
         android:name="co.scrobbler.ptdiary.business.client.ClientFragment"
         android:label="@string/title_clients"
-        tools:layout="@layout/client_fragment" />
+        tools:layout="@layout/client_fragment" >
+        <action
+            android:id="@+id/action_navigation_client_to_navigation_client_create"
+            app:destination="@id/navigation_client_create" />
+    </fragment>
 
     <fragment
         android:id="@+id/navigation_exercise"
         android:name="co.scrobbler.ptdiary.business.exercise.ExerciseFragment"
         android:label="@string/title_exercises"
         tools:layout="@layout/exercise_fragment" />
+    <fragment
+        android:id="@+id/navigation_client_create"
+        android:name="co.scrobbler.ptdiary.business.client.ClientCreateFragment"
+        android:label="@string/title_client_create"
+        tools:layout="@layout/client_create_fragment" />
 </navigation>
