@@ -1,16 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
     <style name="Theme.PersonalTrainerDiary" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
-        <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/primary</item>
-        <item name="colorPrimaryVariant">@color/primary_dark</item>
-        <item name="colorOnPrimary">@color/white</item>
-        <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/secondary</item>
-        <item name="colorSecondaryVariant">@color/secondary_dark</item>
-        <item name="colorOnSecondary">@color/black</item>
-        <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
-        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/space_cadet</item>
+        <item name="colorOnPrimary">@color/space_cadet</item>
+        <item name="android:textColor">@color/manatee</item>
+        <item name="android:statusBarColor">@color/space_cadet</item>
+        <item name="android:colorBackground">@color/alice_blue</item>
+        <item name="bottomNavigationStyle">@style/BottomNavigationViewStyle</item>
+        <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
+        <item name="toolbarStyle">@style/ToolbarStyle</item>
+    </style>
+
+    <style name="BottomNavigationViewStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView">
+        <item name="enforceMaterialTheme">true</item>
+        <item name="itemBackground">@null</item>
+        <item name="android:background">@color/space_cadet</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="rippleColor">@color/mtrl_navigation_bar_ripple_color</item>
+    </style>
+
+    <style name="FloatingActionButtonStyle" parent="@style/Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/amaranth_red</item>
+        <item name="tint">@color/white</item>
+        <item name="rippleColor">@color/manatee</item>
+    </style>
+
+    <style name="ToolbarStyle" parent="@style/ThemeOverlay.AppCompat.Light">
+        <item name="android:background">@color/manatee</item>
     </style>
 </resources>

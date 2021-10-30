@@ -14,12 +14,12 @@
     <fragment
         android:id="@+id/navigation_client"
         android:name="co.scrobbler.ptdiary.business.client.ClientFragment"
-        android:label="@string/title_client"
+        android:label="@string/title_clients"
         tools:layout="@layout/client_fragment" />
 
     <fragment
         android:id="@+id/navigation_exercise"
         android:name="co.scrobbler.ptdiary.business.exercise.ExerciseFragment"
-        android:label="@string/title_exercise"
+        android:label="@string/title_exercises"
         tools:layout="@layout/exercise_fragment" />
 </navigation>
