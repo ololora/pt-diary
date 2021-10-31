@@ -3,6 +3,8 @@ package co.scrobbler.ptdiary;
 import javax.inject.Singleton;
 
 import co.scrobbler.ptdiary.business.client.ClientCreateFragment;
+import co.scrobbler.ptdiary.business.client.ClientProfileFragment;
+import co.scrobbler.ptdiary.business.client.ClientProfileInfoFragment;
 import co.scrobbler.ptdiary.db.DbModule;
 import co.scrobbler.ptdiary.ui.MainActivity;
 import co.scrobbler.ptdiary.business.client.ClientFragment;
@@ -17,5 +19,7 @@ public interface AppComponent {
     void inject(ScheduleFragment activity);
     void inject(ClientFragment activity);
     void inject(ClientCreateFragment activity);
+    void inject(ClientProfileFragment activity);
+    void inject(ClientProfileInfoFragment activity);
     void inject(ExerciseFragment activity);
 }

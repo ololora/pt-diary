@@ -11,6 +11,8 @@
         <item name="floatingActionButtonStyle">@style/FloatingActionButtonStyle</item>
         <item name="toolbarStyle">@style/ToolbarStyle</item>
         <item name="textInputStyle">@style/EditTextStyle</item>
+        <item name="android:colorControlActivated">@color/space_cadet</item>
+        <item name="tabStyle">@style/Widget.Design.TabLayout</item>
     </style>
 
     <style name="BottomNavigationViewStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView">
@@ -32,8 +34,7 @@
         <item name="android:background">@color/manatee</item>
     </style>
 
-    <style name="EditTextStyle" parent="Widget.Design.TextInputLayout">
+    <style name="EditTextStyle" parent="Base.Widget.MaterialComponents.TextInputLayout">
         <item name="android:background">@color/white</item>
-        <item name="android:textColor">@color/space_cadet</item>
     </style>
 </resources>

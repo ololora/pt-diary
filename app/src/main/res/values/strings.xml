@@ -5,6 +5,7 @@
     <string name="title_clients">Clients</string>
     <string name="title_exercises">Exercises</string>
     <string name="title_client_create">New client</string>
+    <string name="title_client_profile">Client profile</string>
 
     <string name="clients_fab_description">Add new client</string>
 
