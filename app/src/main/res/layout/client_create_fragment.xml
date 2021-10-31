@@ -19,7 +19,7 @@
             android:layout_height="match_parent"
             android:hint="@string/client_name"
             android:inputType="text"
-            android:autofillHints="name" />
+            android:autofillHints="name"/>
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout

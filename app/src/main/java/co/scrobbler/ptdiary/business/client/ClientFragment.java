@@ -1,5 +1,8 @@
 package co.scrobbler.ptdiary.business.client;
 
+import static android.view.MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW;
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,12 +24,14 @@ import co.scrobbler.ptdiary.MyApplication;
 import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.client.adapters.ClientsAdapter;
 import co.scrobbler.ptdiary.databinding.ClientFragmentBinding;
+import io.reactivex.rxjava3.disposables.Disposable;
 
 public class ClientFragment extends Fragment {
     private ClientFragmentBinding binding;
+    private Disposable clientListSubscription;
 
     @Inject
-    ClientViewModel viewModel;
+    ClientViewModel clientViewModel;
 
     public static ClientFragment newInstance() {
         return new ClientFragment();
@@ -41,33 +46,24 @@ public class ClientFragment extends Fragment {
 
     @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
         binding = ClientFragmentBinding.inflate(getLayoutInflater());
 
-        binding.fab.setOnClickListener(v -> Navigation.findNavController(requireActivity(),
-                R.id.nav_host_fragment_activity_main).navigate(R.id.navigation_client_create));
+        binding.fab.setOnClickListener(v -> {
+            clientViewModel.setSelectedClient(new Client());
+            Navigation
+                    .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
+                    .navigate(R.id.navigation_client_create);
+        });
 
-        binding.clientsList.setAdapter(new ClientsAdapter(new Client[]{
-                CreateTestClient("William H. Perez"),
-                CreateTestClient("Lucy C. Edwards"),
-                CreateTestClient("Donald S. Coleman"),
-                CreateTestClient("Robert K. Dangelo"),
-                CreateTestClient("Debra C. Macdonald"),
-                CreateTestClient("Robin S. Strange"),
-                CreateTestClient("Debbie J. Walker"),
-                CreateTestClient("Roberta L. Jordan"),
-                CreateTestClient("Carl D. Andrews"),
-                CreateTestClient("Harold L. Elliott"),
-                CreateTestClient("Danny B. Brouwer"),
-                CreateTestClient("Alex C. Birchfield"),
-                CreateTestClient("Frieda P. Hoover"),
-                CreateTestClient("Phil D. Weller"),
-                CreateTestClient("Lynette J. Barbour"),
-                CreateTestClient("Alex S. Robinson"),
-                CreateTestClient("Irene B. Nash"),
-        }));
+        ClientsAdapter clientsAdapter = new ClientsAdapter();
+        clientListSubscription =
+                clientViewModel.getAllClients().subscribe(clientsAdapter::setClients);
+        binding.clientsList.setAdapter(clientsAdapter);
         binding.clientsList.setLayoutManager(new LinearLayoutManager(getContext()));
+
         return binding.getRoot();
     }
 
@@ -76,11 +72,11 @@ public class ClientFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.client_toolbar_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_search);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-                | MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-        SearchView searchView = (SearchView) item.getActionView();
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem.setShowAsAction(SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | SHOW_AS_ACTION_IF_ROOM);
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -94,9 +90,9 @@ public class ClientFragment extends Fragment {
         });
     }
 
-    private static Client CreateTestClient(String name) {
-        Client client = new Client();
-        client.name = name;
-        return client;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        clientListSubscription.dispose();
     }
 }

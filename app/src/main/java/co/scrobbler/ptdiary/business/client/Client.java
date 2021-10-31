@@ -10,5 +10,5 @@ public class Client {
 
     public String name;
 
-    public String comment;
+    public String notes;
 }

@@ -8,14 +8,18 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.client.Client;
 
 public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHolder> {
-    private Client[] clients;
+    private List<Client> clients = new ArrayList<>();
 
-    public ClientsAdapter(Client[] clients) {
+    public void setClients(List<Client> clients) {
         this.clients = clients;
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -29,12 +33,12 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        holder.getClientNameTextView().setText(clients[position].name);
+        holder.getClientNameTextView().setText(clients.get(position).name);
     }
 
     @Override
     public int getItemCount() {
-        return clients.length;
+        return clients.size();
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
