@@ -23,22 +23,25 @@ import javax.inject.Inject;
 
 import co.scrobbler.ptdiary.MyApplication;
 import co.scrobbler.ptdiary.R;
-import co.scrobbler.ptdiary.databinding.ClientCreateFragmentBinding;
+import co.scrobbler.ptdiary.business.SharedViewModel;
+import co.scrobbler.ptdiary.databinding.ClientEditFragmentBinding;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
-public class ClientCreateFragment extends Fragment {
-    private ClientCreateFragmentBinding binding;
+public class ClientEditFragment extends Fragment {
+    private ClientEditFragmentBinding binding;
 
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     @Inject
-    ClientViewModel clientViewModel;
+    SharedViewModel sharedViewModel;
+    @Inject
+    ClientEditViewModel clientEditViewModel;
 
-    public static ClientFragment newInstance() {
-        return new ClientFragment();
+    public static ClientListFragment newInstance() {
+        return new ClientListFragment();
     }
 
     @Override
@@ -52,7 +55,7 @@ public class ClientCreateFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater,
                              ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = ClientCreateFragmentBinding.inflate(getLayoutInflater());
+        binding = ClientEditFragmentBinding.inflate(getLayoutInflater());
         return binding.getRoot();
     }
 
@@ -61,15 +64,21 @@ public class ClientCreateFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         Subscription nameSubscription = RxTextView.textChanges(binding.clientNameEditView)
-                .subscribe(value -> clientViewModel.setNameEdit(value.toString()));
+                .subscribe(value -> clientEditViewModel.setNameEdit(value.toString()));
         compositeSubscription.add(nameSubscription);
 
         Subscription notesSubscription = RxTextView.textChanges(binding.clientNotesEditText)
-                .subscribe(value -> clientViewModel.setNotesEdit(value.toString()));
+                .subscribe(value -> clientEditViewModel.setNotesEdit(value.toString()));
         compositeSubscription.add(notesSubscription);
 
-        binding.clientNameEditView.setText(clientViewModel.getSelectedClient().name, EDITABLE);
-        binding.clientNotesEditText.setText(clientViewModel.getSelectedClient().notes, EDITABLE);
+        compositeDisposable.add(
+                sharedViewModel
+                        .getSelectedClient(sharedViewModel.getSelectedClientId())
+                        .subscribe(client -> {
+                            binding.clientNameEditView.setText(client.name, EDITABLE);
+                            binding.clientNotesEditText.setText(client.notes, EDITABLE);
+                        })
+        );
     }
 
     @Override
@@ -85,7 +94,7 @@ public class ClientCreateFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_submit) {
-            clientViewModel.createOrUpdateClient();
+            clientEditViewModel.createOrUpdateClient(sharedViewModel.getSelectedClientId());
             Navigation
                     .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
                     .popBackStack();

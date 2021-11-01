@@ -8,18 +8,28 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.jakewharton.rxbinding.view.RxView;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.client.Client;
+import io.reactivex.rxjava3.subjects.PublishSubject;
+import rx.subscriptions.CompositeSubscription;
 
 public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHolder> {
     private List<Client> clients = new ArrayList<>();
+    private final CompositeSubscription compositeSubscription = new CompositeSubscription();
+    private final PublishSubject<Long> selectedItemId = PublishSubject.create();
 
     public void setClients(List<Client> clients) {
         this.clients = clients;
         notifyDataSetChanged();
+    }
+
+    public PublishSubject<Long> getSelectedItemId() {
+        return selectedItemId;
     }
 
     @NonNull
@@ -34,6 +44,11 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHold
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         holder.getClientNameTextView().setText(clients.get(position).name);
+
+        compositeSubscription.add(
+                RxView.clicks(holder.itemView)
+                        .subscribe(view -> selectedItemId.onNext(clients.get(position).id))
+        );
     }
 
     @Override
@@ -52,5 +67,11 @@ public class ClientsAdapter extends RecyclerView.Adapter<ClientsAdapter.ViewHold
         public TextView getClientNameTextView() {
             return clientNameTextView;
         }
+    }
+
+    @Override
+    public void onDetachedFromRecyclerView(@NonNull RecyclerView recyclerView) {
+        compositeSubscription.unsubscribe();
+        super.onDetachedFromRecyclerView(recyclerView);
     }
 }

@@ -22,19 +22,22 @@ import javax.inject.Inject;
 
 import co.scrobbler.ptdiary.MyApplication;
 import co.scrobbler.ptdiary.R;
+import co.scrobbler.ptdiary.business.SharedViewModel;
 import co.scrobbler.ptdiary.business.client.adapters.ClientsAdapter;
-import co.scrobbler.ptdiary.databinding.ClientFragmentBinding;
-import io.reactivex.rxjava3.disposables.Disposable;
+import co.scrobbler.ptdiary.databinding.ClientListFragmentBinding;
+import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
-public class ClientFragment extends Fragment {
-    private ClientFragmentBinding binding;
-    private Disposable clientListSubscription;
+public class ClientListFragment extends Fragment {
+    private ClientListFragmentBinding binding;
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
+    @Inject
+    SharedViewModel sharedViewModel;
     @Inject
     ClientViewModel clientViewModel;
 
-    public static ClientFragment newInstance() {
-        return new ClientFragment();
+    public static ClientListFragment newInstance() {
+        return new ClientListFragment();
     }
 
     @Override
@@ -49,22 +52,31 @@ public class ClientFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ClientFragmentBinding.inflate(getLayoutInflater());
+        binding = ClientListFragmentBinding.inflate(getLayoutInflater());
 
-        binding.fab.setOnClickListener(v -> {
-            clientViewModel.setSelectedClient(new Client());
-            Navigation
-                    .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
-                    .navigate(R.id.navigation_client_create);
-        });
+        sharedViewModel.setSelectedClientId(0);
+
+        binding.fab.setOnClickListener(v -> navigateToClientEdit());
 
         ClientsAdapter clientsAdapter = new ClientsAdapter();
-        clientListSubscription =
-                clientViewModel.getAllClients().subscribe(clientsAdapter::setClients);
-        binding.clientsList.setAdapter(clientsAdapter);
-        binding.clientsList.setLayoutManager(new LinearLayoutManager(getContext()));
+        compositeDisposable.add(
+                clientViewModel.getAllClients().subscribe(clientsAdapter::setClients));
+        binding.clientList.setAdapter(clientsAdapter);
+        binding.clientList.setLayoutManager(new LinearLayoutManager(getContext()));
+        compositeDisposable.add(
+                clientsAdapter.getSelectedItemId().subscribe(id -> {
+                            sharedViewModel.setSelectedClientId(id);
+                            navigateToClientEdit();
+                        }
+                ));
 
         return binding.getRoot();
+    }
+
+    private void navigateToClientEdit() {
+        Navigation
+                .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
+                .navigate(R.id.navigation_client_edit);
     }
 
     @Override
@@ -92,7 +104,7 @@ public class ClientFragment extends Fragment {
 
     @Override
     public void onDestroy() {
+        compositeDisposable.dispose();
         super.onDestroy();
-        clientListSubscription.dispose();
     }
 }
