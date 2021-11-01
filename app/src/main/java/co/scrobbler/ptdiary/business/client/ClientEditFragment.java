@@ -95,12 +95,19 @@ public class ClientEditFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_submit) {
             clientEditViewModel.createOrUpdateClient(sharedViewModel.getSelectedClientId());
-            Navigation
-                    .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
-                    .popBackStack();
+            navigateBack();
+            return true;
+        } else if (item.getItemId() == android.R.id.home) {
+            navigateBack();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void navigateBack() {
+        Navigation
+                .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
+                .popBackStack();
     }
 
     @Override
