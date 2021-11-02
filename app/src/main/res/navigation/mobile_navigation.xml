@@ -45,6 +45,6 @@
         tools:layout="@layout/client_profile_fragment" >
         <action
             android:id="@+id/action_clientProfileFragment_to_navigation_client_create"
-            app:destination="@id/navigation_client_create" />
+            app:destination="@id/navigation_client_edit" />
     </fragment>
 </navigation>
