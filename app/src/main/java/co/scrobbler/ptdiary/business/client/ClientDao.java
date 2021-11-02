@@ -1,26 +1,33 @@
 package co.scrobbler.ptdiary.business.client;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
+
+import java.util.List;
+
+import io.reactivex.rxjava3.core.Completable;
+import io.reactivex.rxjava3.core.Flowable;
+import io.reactivex.rxjava3.core.Maybe;
+import io.reactivex.rxjava3.core.Single;
 
 @Dao
 public interface ClientDao {
     @Query("SELECT * FROM client")
-    LiveData<Client> getAll();
+    Flowable<List<Client>> getAll();
 
     @Query("SELECT * FROM client WHERE id = :id")
-    Client getById(long id);
+    Maybe<Client> getById(long id);
 
-    @Insert
-    void insert(Client client);
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    Single<Long> insert(Client client);
 
     @Update
-    void update(Client client);
+    Completable update(Client client);
 
     @Delete
-    void delete(Client client);
+    Completable delete(Client client);
 }

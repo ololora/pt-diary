@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".business.client.ClientFragment">
+    tools:context=".business.client.ClientListFragment">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/clients_list"
+        android:id="@+id/client_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="@dimen/fragment_margin_bottom"/>
