@@ -1,26 +1,30 @@
 package co.scrobbler.ptdiary.business.client;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.ViewModel;
 
 import javax.inject.Inject;
 
+import co.scrobbler.ptdiary.business.SharedViewModel;
 import co.scrobbler.ptdiary.db.AppDatabase;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
+import io.reactivex.rxjava3.core.Observable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import io.reactivex.rxjava3.disposables.Disposable;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 public class ClientEditViewModel extends ViewModel {
     private String nameEdit = "";
     private String notesEdit = "";
 
-    private final CompositeDisposable disposables = new CompositeDisposable();
+    private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     private final AppDatabase db;
+    private final SharedViewModel sharedViewModel;
 
     @Inject
-    public ClientEditViewModel(AppDatabase db) {
+    public ClientEditViewModel(AppDatabase db, SharedViewModel sharedViewModel) {
         this.db = db;
+        this.sharedViewModel = sharedViewModel;
     }
 
     public void setNameEdit(String nameEdit) {
@@ -31,31 +35,39 @@ public class ClientEditViewModel extends ViewModel {
         this.notesEdit = notesEdit;
     }
 
-    public void createOrUpdateClient(long selectedClientId) {
-        Client client = new Client();
+    @NonNull
+    public Observable<Client> getSelectedClient() {
+        return sharedViewModel.selectedClientId
+                .filter(id -> id > 0)
+                .flatMapMaybe(id -> db.clientDao().getById(id))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+    }
+
+    public void createOrUpdateClient() {
+        compositeDisposable.add(
+                sharedViewModel.selectedClientId
+                        .take(1)
+                        .flatMapSingle(id -> db.clientDao()
+                                .getById(id)
+                                .defaultIfEmpty(new Client())
+                                .map(this::updateClientFields)
+                                .flatMap(client -> db.clientDao().insert(client)))
+                        .subscribeOn(Schedulers.computation())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribe()
+        );
+    }
+
+    private Client updateClientFields(Client client) {
         client.name = nameEdit;
         client.notes = notesEdit;
-        Disposable disposable;
-        if (selectedClientId == 0) {
-            disposable = db.clientDao()
-                    .insert(client)
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(id -> client.id = id);
-        } else {
-            client.id = selectedClientId;
-            disposable = db.clientDao()
-                    .update(client)
-                    .subscribeOn(Schedulers.computation())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe();
-        }
-        disposables.add(disposable);
+        return client;
     }
 
     @Override
     protected void onCleared() {
         super.onCleared();
-        disposables.dispose();
+        compositeDisposable.dispose();
     }
 }
