@@ -26,9 +26,13 @@
 
     <fragment
         android:id="@+id/navigation_exercise"
-        android:name="co.scrobbler.ptdiary.business.exercise.ExerciseFragment"
+        android:name="co.scrobbler.ptdiary.business.exercise.ExerciseListFragment"
         android:label="@string/title_exercises"
-        tools:layout="@layout/exercise_fragment" />
+        tools:layout="@layout/exercise_list_fragment" >
+        <action
+            android:id="@+id/action_navigation_exercise_to_exerciseEditFragment"
+            app:destination="@id/navigation_exercise_edit" />
+    </fragment>
     <fragment
         android:id="@+id/navigation_client_edit"
         android:name="co.scrobbler.ptdiary.business.client.ClientEditFragment"
@@ -47,4 +51,9 @@
             android:id="@+id/action_clientProfileFragment_to_navigation_client_create"
             app:destination="@id/navigation_client_edit" />
     </fragment>
+    <fragment
+        android:id="@+id/navigation_exercise_edit"
+        android:name="co.scrobbler.ptdiary.business.exercise.ExerciseEditFragment"
+        android:label="@string/title_exercise_edit"
+        tools:layout="@layout/exercise_edit_fragment" />
 </navigation>
