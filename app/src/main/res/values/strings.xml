@@ -4,11 +4,15 @@
     <string name="title_schedule">Schedule</string>
     <string name="title_clients">Clients</string>
     <string name="title_exercises">Exercises</string>
+    <string name="title_exercise_edit">New exercise</string>
     <string name="title_client_create">New client</string>
     <string name="title_client_profile">Client profile</string>
 
     <string name="clients_fab_description">Add new client</string>
+    <string name="exercise_fab_description">Add new exercise</string>
 
     <string name="client_name">Name</string>
     <string name="client_notes">Notes</string>
+
+    <string name="exercise_name">Name</string>
 </resources>
