@@ -16,6 +16,8 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.jakewharton.rxbinding.support.v7.widget.RxSearchView;
+
 import javax.inject.Inject;
 
 import co.scrobbler.ptdiary.R;
@@ -24,9 +26,12 @@ import co.scrobbler.ptdiary.business.client.adapters.ClientsAdapter;
 import co.scrobbler.ptdiary.databinding.ClientListFragmentBinding;
 import co.scrobbler.ptdiary.ui.BaseFragment;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import rx.Subscription;
+import rx.subscriptions.CompositeSubscription;
 
 public class ClientListFragment extends BaseFragment {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private final CompositeSubscription compositeSubscription = new CompositeSubscription();
 
     @Inject
     SharedViewModel sharedViewModel;
@@ -57,7 +62,7 @@ public class ClientListFragment extends BaseFragment {
 
         ClientsAdapter clientsAdapter = new ClientsAdapter();
         compositeDisposable.add(
-                clientViewModel.getAllClients().subscribe(clientsAdapter::setClients));
+                clientViewModel.getClientList().subscribe(clientsAdapter::setClients));
         binding.clientList.setAdapter(clientsAdapter);
         binding.clientList.setLayoutManager(new LinearLayoutManager(getContext()));
         compositeDisposable.add(
@@ -82,24 +87,20 @@ public class ClientListFragment extends BaseFragment {
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
         searchItem.setShowAsAction(SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | SHOW_AS_ACTION_IF_ROOM);
+        compositeSubscription.add(
+                subscribeSearchQueryChanges((SearchView) searchItem.getActionView()));
+    }
 
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
+    private Subscription subscribeSearchQueryChanges(SearchView searchView) {
+        return RxSearchView.queryTextChanges(searchView).subscribe(query -> {
+            clientViewModel.query.onNext(query.toString());
         });
     }
 
     @Override
     public void onDestroy() {
         compositeDisposable.dispose();
+        compositeSubscription.unsubscribe();
         super.onDestroy();
     }
 }

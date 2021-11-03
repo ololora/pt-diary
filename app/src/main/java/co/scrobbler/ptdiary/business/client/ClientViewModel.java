@@ -11,10 +11,13 @@ import co.scrobbler.ptdiary.db.AppDatabase;
 import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.processors.PublishProcessor;
 import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Singleton
 public class ClientViewModel extends ViewModel {
+    public final PublishProcessor<String> query = PublishProcessor.create();
+
     private final CompositeDisposable disposables = new CompositeDisposable();
 
     private final AppDatabase db;
@@ -24,8 +27,15 @@ public class ClientViewModel extends ViewModel {
         this.db = db;
     }
 
-    public Flowable<List<Client>> getAllClients() {
-        return db.clientDao().getAll()
+    public Flowable<List<Client>> getClientList() {
+        return query.defaultIfEmpty("")
+                .flatMap(query -> {
+                    if (query.isEmpty()) {
+                        return db.clientDao().getAll();
+                    }
+                    return db.clientDao().getFiltered(query);
+                })
+                .distinctUntilChanged()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
     }
