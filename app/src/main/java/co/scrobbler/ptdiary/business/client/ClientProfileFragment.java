@@ -1,29 +1,29 @@
 package co.scrobbler.ptdiary.business.client;
 
+import static android.view.MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW;
+import static android.view.MenuItem.SHOW_AS_ACTION_IF_ROOM;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
 
 import javax.inject.Inject;
 
-import co.scrobbler.ptdiary.MyApplication;
 import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.client.adapters.ProfileClientTabFragmentAdapter;
 import co.scrobbler.ptdiary.databinding.ClientProfileFragmentBinding;
+import co.scrobbler.ptdiary.ui.BaseFragment;
 
-public class ClientProfileFragment extends Fragment {
+public class ClientProfileFragment extends BaseFragment {
 
     private ClientProfileFragmentBinding binding;
 
@@ -36,7 +36,7 @@ public class ClientProfileFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ((MyApplication) getActivity().getApplicationContext()).getAppComponent().inject(this);
+        appComponent().inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
     }
@@ -78,8 +78,8 @@ public class ClientProfileFragment extends Fragment {
         super.onCreateOptionsMenu(menu, inflater);
         menu.clear();
         inflater.inflate(R.menu.client_profile_toolbar_menu, menu);
-        MenuItem item = menu.findItem(R.id.action_edit);
-        item.setShowAsAction(MenuItem.SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW
-                | MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        menu.findItem(R.id.action_edit)
+                .setShowAsAction(SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | SHOW_AS_ACTION_IF_ROOM);
     }
 }
