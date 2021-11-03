@@ -19,6 +19,9 @@ public interface ClientDao {
     @Query("SELECT * FROM client")
     Flowable<List<Client>> getAll();
 
+    @Query("SELECT * FROM client WHERE lower(name) LIKE lower('%' || :query || '%')")
+    Flowable<List<Client>> getFiltered(String query);
+
     @Query("SELECT * FROM client WHERE id = :id")
     Maybe<Client> getById(long id);
 
