@@ -14,20 +14,18 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import javax.inject.Inject;
 
-import co.scrobbler.ptdiary.MyApplication;
 import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.SharedViewModel;
 import co.scrobbler.ptdiary.business.client.adapters.ClientsAdapter;
 import co.scrobbler.ptdiary.databinding.ClientListFragmentBinding;
+import co.scrobbler.ptdiary.ui.BaseFragment;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
-public class ClientListFragment extends Fragment {
+public class ClientListFragment extends BaseFragment {
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
@@ -41,7 +39,7 @@ public class ClientListFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ((MyApplication) getActivity().getApplicationContext()).getAppComponent().inject(this);
+        appComponent().inject(this);
         setHasOptionsMenu(true);
         super.onCreate(savedInstanceState);
     }
@@ -73,9 +71,7 @@ public class ClientListFragment extends Fragment {
     }
 
     private void navigateToClientEdit() {
-        Navigation
-                .findNavController(requireActivity(), R.id.nav_host_fragment_activity_main)
-                .navigate(R.id.navigation_client_edit);
+        navController().navigate(R.id.navigation_client_edit);
     }
 
     @Override

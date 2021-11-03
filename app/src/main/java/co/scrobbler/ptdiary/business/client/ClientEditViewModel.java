@@ -48,11 +48,10 @@ public class ClientEditViewModel extends ViewModel {
         compositeDisposable.add(
                 sharedViewModel.selectedClientId
                         .take(1)
-                        .flatMapSingle(id -> db.clientDao()
-                                .getById(id)
-                                .defaultIfEmpty(new Client())
-                                .map(this::updateClientFields)
-                                .flatMap(client -> db.clientDao().insert(client)))
+                        .flatMapMaybe(id -> db.clientDao().getById(id))
+                        .defaultIfEmpty(new Client())
+                        .map(this::updateClientFields)
+                        .flatMapSingle(client -> db.clientDao().insert(client))
                         .subscribeOn(Schedulers.computation())
                         .observeOn(AndroidSchedulers.mainThread())
                         .subscribe()

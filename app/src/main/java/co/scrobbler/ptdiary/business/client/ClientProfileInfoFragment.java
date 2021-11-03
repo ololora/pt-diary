@@ -2,24 +2,17 @@ package co.scrobbler.ptdiary.business.client;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.widget.SearchView;
-import androidx.fragment.app.Fragment;
 
 import javax.inject.Inject;
 
-import co.scrobbler.ptdiary.MyApplication;
-import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.databinding.ClientProfileInfoFragmentBinding;
+import co.scrobbler.ptdiary.ui.BaseFragment;
 
-public class ClientProfileInfoFragment extends Fragment {
+public class ClientProfileInfoFragment extends BaseFragment {
 
     private ClientProfileInfoFragmentBinding binding;
 
@@ -32,7 +25,7 @@ public class ClientProfileInfoFragment extends Fragment {
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
-        ((MyApplication) getActivity().getApplicationContext()).getAppComponent().inject(this);
+        appComponent().inject(this);
         super.onCreate(savedInstanceState);
     }
 
