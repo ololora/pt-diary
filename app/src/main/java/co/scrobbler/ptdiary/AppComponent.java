@@ -17,13 +17,14 @@ import dagger.Component;
 @Component(modules={AppModule.class, DbModule.class})
 public interface AppComponent {
     void inject(MainActivity activity);
-    void inject(ScheduleFragment activity);
 
-    void inject(ClientListFragment activity);
-    void inject(ClientEditFragment activity);
-    void inject(ClientProfileFragment activity);
-    void inject(ClientProfileInfoFragment activity);
+    void inject(ScheduleFragment fragment);
 
-    void inject(ExerciseListFragment activity);
-    void inject(ExerciseEditFragment activity);
+    void inject(ClientListFragment fragment);
+    void inject(ClientEditFragment fragment);
+    void inject(ClientProfileFragment fragment);
+    void inject(ClientProfileInfoFragment fragment);
+
+    void inject(ExerciseListFragment fragment);
+    void inject(ExerciseEditFragment fragment);
 }

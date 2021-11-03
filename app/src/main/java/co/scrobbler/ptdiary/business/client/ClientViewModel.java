@@ -8,8 +8,10 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import co.scrobbler.ptdiary.db.AppDatabase;
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.core.Flowable;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
+import io.reactivex.rxjava3.schedulers.Schedulers;
 
 @Singleton
 public class ClientViewModel extends ViewModel {
@@ -23,7 +25,9 @@ public class ClientViewModel extends ViewModel {
     }
 
     public Flowable<List<Client>> getAllClients() {
-        return db.clientDao().getAll();
+        return db.clientDao().getAll()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
     }
 
     @Override

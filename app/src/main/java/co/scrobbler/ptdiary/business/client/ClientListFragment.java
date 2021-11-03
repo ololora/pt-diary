@@ -28,7 +28,6 @@ import co.scrobbler.ptdiary.databinding.ClientListFragmentBinding;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
 
 public class ClientListFragment extends Fragment {
-    private ClientListFragmentBinding binding;
     private final CompositeDisposable compositeDisposable = new CompositeDisposable();
 
     @Inject
@@ -52,9 +51,9 @@ public class ClientListFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ClientListFragmentBinding.inflate(getLayoutInflater());
+        ClientListFragmentBinding binding = ClientListFragmentBinding.inflate(getLayoutInflater());
 
-        sharedViewModel.setSelectedClientId(0);
+        sharedViewModel.selectedClientId.onNext(0L);
 
         binding.fab.setOnClickListener(v -> navigateToClientEdit());
 
@@ -65,7 +64,7 @@ public class ClientListFragment extends Fragment {
         binding.clientList.setLayoutManager(new LinearLayoutManager(getContext()));
         compositeDisposable.add(
                 clientsAdapter.getSelectedItemId().subscribe(id -> {
-                            sharedViewModel.setSelectedClientId(id);
+                            sharedViewModel.selectedClientId.onNext(id);
                             navigateToClientEdit();
                         }
                 ));

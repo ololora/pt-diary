@@ -26,7 +26,6 @@ import co.scrobbler.ptdiary.R;
 import co.scrobbler.ptdiary.business.SharedViewModel;
 import co.scrobbler.ptdiary.databinding.ClientEditFragmentBinding;
 import io.reactivex.rxjava3.disposables.CompositeDisposable;
-import rx.Subscription;
 import rx.subscriptions.CompositeSubscription;
 
 public class ClientEditFragment extends Fragment {
@@ -63,21 +62,23 @@ public class ClientEditFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        Subscription nameSubscription = RxTextView.textChanges(binding.clientNameEditView)
-                .subscribe(value -> clientEditViewModel.setNameEdit(value.toString()));
-        compositeSubscription.add(nameSubscription);
+        compositeSubscription.add(
+                RxTextView.textChanges(binding.clientNameEditView)
+                        .subscribe(value -> clientEditViewModel.setNameEdit(value.toString()))
+        );
 
-        Subscription notesSubscription = RxTextView.textChanges(binding.clientNotesEditText)
-                .subscribe(value -> clientEditViewModel.setNotesEdit(value.toString()));
-        compositeSubscription.add(notesSubscription);
+        compositeSubscription.add(
+                RxTextView.textChanges(binding.clientNotesEditText)
+                        .subscribe(value -> clientEditViewModel.setNotesEdit(value.toString()))
+        );
 
         compositeDisposable.add(
-                sharedViewModel
-                        .getSelectedClient(sharedViewModel.getSelectedClientId())
+                clientEditViewModel.getSelectedClient()
                         .subscribe(client -> {
                             binding.clientNameEditView.setText(client.name, EDITABLE);
                             binding.clientNotesEditText.setText(client.notes, EDITABLE);
-                        })
+                        }
+                )
         );
     }
 
@@ -94,7 +95,7 @@ public class ClientEditFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == R.id.action_submit) {
-            clientEditViewModel.createOrUpdateClient(sharedViewModel.getSelectedClientId());
+            clientEditViewModel.createOrUpdateClient();
             navigateBack();
             return true;
         } else if (item.getItemId() == android.R.id.home) {
