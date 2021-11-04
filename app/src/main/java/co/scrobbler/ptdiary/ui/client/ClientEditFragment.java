@@ -60,17 +60,13 @@ public class ClientEditFragment extends BaseFragment {
                              ViewGroup container,
                              Bundle savedInstanceState) {
         binding = ClientEditFragmentBinding.inflate(getLayoutInflater());
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
 
         compositeSubscription.add(subscribeNameEdit());
         compositeSubscription.add(subscribeNotesEdit());
 
         compositeDisposable.add(setupClientInfo());
+
+        return binding.getRoot();
     }
 
     private Subscription subscribeNameEdit() {
