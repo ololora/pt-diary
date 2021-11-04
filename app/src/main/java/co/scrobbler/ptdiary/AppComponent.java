@@ -2,15 +2,15 @@ package co.scrobbler.ptdiary;
 
 import javax.inject.Singleton;
 
-import co.scrobbler.ptdiary.business.client.ClientEditFragment;
-import co.scrobbler.ptdiary.business.client.ClientListFragment;
-import co.scrobbler.ptdiary.business.client.ClientProfileFragment;
-import co.scrobbler.ptdiary.business.client.ClientProfileInfoFragment;
-import co.scrobbler.ptdiary.business.exercise.ExerciseEditFragment;
-import co.scrobbler.ptdiary.business.exercise.ExerciseListFragment;
-import co.scrobbler.ptdiary.business.schedule.ScheduleFragment;
 import co.scrobbler.ptdiary.db.DbModule;
 import co.scrobbler.ptdiary.ui.MainActivity;
+import co.scrobbler.ptdiary.ui.client.ClientEditFragment;
+import co.scrobbler.ptdiary.ui.client.ClientListFragment;
+import co.scrobbler.ptdiary.ui.client.ClientProfileFragment;
+import co.scrobbler.ptdiary.ui.client.ClientProfileInfoFragment;
+import co.scrobbler.ptdiary.ui.exercise.ExerciseEditFragment;
+import co.scrobbler.ptdiary.ui.exercise.ExerciseListFragment;
+import co.scrobbler.ptdiary.ui.schedule.ScheduleFragment;
 import dagger.Component;
 
 @Singleton

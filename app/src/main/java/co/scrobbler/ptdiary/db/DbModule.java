@@ -4,7 +4,7 @@ import androidx.room.Room;
 
 import javax.inject.Singleton;
 
-import co.scrobbler.ptdiary.MyApplication;
+import co.scrobbler.ptdiary.PtDiaryApp;
 import dagger.Module;
 import dagger.Provides;
 
@@ -14,7 +14,7 @@ public class DbModule {
 
     @Provides
     @Singleton
-    public AppDatabase providesDb(MyApplication application) {
+    public AppDatabase providesDb(PtDiaryApp application) {
         return Room
                 .databaseBuilder(application.getApplicationContext(), AppDatabase.class, DB_NAME)
                 .build();

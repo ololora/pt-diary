@@ -8,7 +8,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import co.scrobbler.ptdiary.AppComponent;
-import co.scrobbler.ptdiary.MyApplication;
+import co.scrobbler.ptdiary.PtDiaryApp;
 import co.scrobbler.ptdiary.R;
 
 public abstract class BaseFragment extends Fragment {
@@ -22,7 +22,7 @@ public abstract class BaseFragment extends Fragment {
     }
 
     protected AppComponent appComponent() {
-        return ((MyApplication) requireActivity().getApplicationContext()).getAppComponent();
+        return ((PtDiaryApp) requireActivity().getApplicationContext()).getAppComponent();
     }
 
     protected void navigateBack() {
