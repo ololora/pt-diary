@@ -13,6 +13,7 @@
         <item name="textInputStyle">@style/EditTextStyle</item>
         <item name="android:colorControlActivated">@color/space_cadet</item>
         <item name="tabStyle">@style/Widget.Design.TabLayout</item>
+        <item name="timeDurationPickerStyle">@style/TimeDurationPickerStyle</item>
     </style>
 
     <style name="BottomNavigationViewStyle" parent="@style/Widget.MaterialComponents.BottomNavigationView">
@@ -36,5 +37,22 @@
 
     <style name="EditTextStyle" parent="Base.Widget.MaterialComponents.TextInputLayout">
         <item name="android:background">@color/white</item>
+    </style>
+
+    <style name="TimeDurationPickerStyle">
+        <item name="timeUnits">mmss</item>
+        <item name="separatorColor">@color/alice_blue</item>
+        <item name="durationDisplayBackground">@color/alice_blue</item>
+        <item name="textAppearanceDisplay">@style/TimeDurationPickerTextAppearanceStyle</item>
+        <item name="android:colorControlActivated">@color/space_cadet</item>
+    </style>
+
+    <style name="Widget.TimeDurationPicker.Dialog">
+        <item name="durationDisplayBackground">@color/manatee</item>
+        <item name="textAppearanceDisplay">@style/TimeDurationPickerTextAppearanceStyle</item>
+    </style>
+
+    <style name="TimeDurationPickerTextAppearanceStyle">
+        <item name="android:textColor">@color/space_cadet</item>
     </style>
 </resources>

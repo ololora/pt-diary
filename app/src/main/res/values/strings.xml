@@ -5,6 +5,7 @@
     <string name="title_clients">Clients</string>
     <string name="title_exercises">Exercises</string>
     <string name="title_exercise_edit">New exercise</string>
+    <string name="title_workout_exercise_edit">New workout exercise</string>
     <string name="title_client_create">New client</string>
     <string name="title_client_edit">Edit client</string>
     <string name="title_client_profile">Client profile</string>
@@ -16,4 +17,11 @@
     <string name="client_notes">Notes</string>
 
     <string name="exercise_name">Name</string>
+
+    <string name="workout_exercise_name">Exercise</string>
+    <string name="workout_superset_exercise_name">Superset exercise</string>
+    <string name="workout_exercise_reps">Reps</string>
+    <string name="workout_exercise_weight">Weight</string>
+    <string name="workout_exercise_rep_duration">Duration</string>
+    <string name="workout_exercise_rest_duration">Rest</string>
 </resources>

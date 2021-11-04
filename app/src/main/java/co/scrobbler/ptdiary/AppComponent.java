@@ -11,6 +11,7 @@ import co.scrobbler.ptdiary.ui.client.ClientProfileInfoFragment;
 import co.scrobbler.ptdiary.ui.exercise.ExerciseEditFragment;
 import co.scrobbler.ptdiary.ui.exercise.ExerciseListFragment;
 import co.scrobbler.ptdiary.ui.schedule.ScheduleFragment;
+import co.scrobbler.ptdiary.ui.workout.WorkoutExerciseEditFragment;
 import dagger.Component;
 
 @Singleton
@@ -27,4 +28,6 @@ public interface AppComponent {
 
     void inject(ExerciseListFragment fragment);
     void inject(ExerciseEditFragment fragment);
+
+    void inject(WorkoutExerciseEditFragment fragment);
 }
