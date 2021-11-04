@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -25,7 +26,6 @@ import co.scrobbler.ptdiary.ui.BaseFragment;
 import co.scrobbler.ptdiary.ui.client.adapters.ProfileClientTabFragmentAdapter;
 
 public class ClientProfileFragment extends BaseFragment {
-
     private ClientProfileFragmentBinding binding;
 
     @Inject
@@ -43,7 +43,7 @@ public class ClientProfileFragment extends BaseFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         binding = ClientProfileFragmentBinding.inflate(getLayoutInflater());
         binding.clientProfileViewPager.setAdapter(new ProfileClientTabFragmentAdapter(this));
@@ -51,27 +51,30 @@ public class ClientProfileFragment extends BaseFragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 binding.clientProfileViewPager.setCurrentItem(tab.getPosition());
-                binding.clientProfileTabLayout.getTabAt(tab.getPosition()).select();
+                selectLayoutTab(tab.getPosition());
             }
 
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabUnselected(TabLayout.Tab tab) {}
 
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
+            public void onTabReselected(TabLayout.Tab tab) {}
         });
         binding.clientProfileViewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
             @Override
             public void onPageSelected(int position) {
                 binding.clientProfileViewPager.setCurrentItem(position);
-                binding.clientProfileTabLayout.getTabAt(position).select();
+                selectLayoutTab(position);
             }
         });
         return binding.getRoot();
+    }
+
+    private void selectLayoutTab(int position) {
+        TabLayout.Tab layoutTab = binding.clientProfileTabLayout.getTabAt(position);
+        if (layoutTab != null) {
+            layoutTab.select();
+        }
     }
 
     @Override
@@ -82,5 +85,14 @@ public class ClientProfileFragment extends BaseFragment {
 
         menu.findItem(R.id.action_edit)
                 .setShowAsAction(SHOW_AS_ACTION_COLLAPSE_ACTION_VIEW | SHOW_AS_ACTION_IF_ROOM);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == R.id.action_edit) {
+            navController().navigate(R.id.navigation_client_edit);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

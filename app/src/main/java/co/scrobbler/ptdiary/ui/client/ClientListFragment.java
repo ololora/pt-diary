@@ -59,7 +59,7 @@ public class ClientListFragment extends BaseFragment {
 
         sharedViewModel.selectedClientId.onNext(0L);
 
-        binding.fab.setOnClickListener(v -> navigateToClientEdit());
+        binding.fab.setOnClickListener(v -> navController().navigate(R.id.navigation_client_edit));
 
         ClientsAdapter clientsAdapter = new ClientsAdapter();
         compositeDisposable.add(
@@ -69,15 +69,11 @@ public class ClientListFragment extends BaseFragment {
         compositeDisposable.add(
                 clientsAdapter.getSelectedItemId().subscribe(id -> {
                             sharedViewModel.selectedClientId.onNext(id);
-                            navigateToClientEdit();
+                            navController().navigate(R.id.navigation_client_profile);
                         }
                 ));
 
         return binding.getRoot();
-    }
-
-    private void navigateToClientEdit() {
-        navController().navigate(R.id.navigation_client_edit);
     }
 
     @Override
