@@ -7,15 +7,15 @@ import dagger.Provides;
 
 @Module
 public class AppModule {
-    MyApplication mApplication;
+    PtDiaryApp mApplication;
 
-    public AppModule(MyApplication application) {
+    public AppModule(PtDiaryApp application) {
         mApplication = application;
     }
 
     @Provides
     @Singleton
-    MyApplication providesApplication() {
+    PtDiaryApp providesApplication() {
         return mApplication;
     }
 }

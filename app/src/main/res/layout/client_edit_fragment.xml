@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".business.client.ClientEditFragment"
+    tools:context=".ui.client.ClientEditFragment"
     android:orientation="vertical">
 
     <com.google.android.material.textfield.TextInputLayout
