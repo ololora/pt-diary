@@ -14,8 +14,11 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.jakewharton.rxbinding.widget.RxTextView;
+
+import java.util.Objects;
 
 import javax.inject.Inject;
 
@@ -48,6 +51,7 @@ public class ClientEditFragment extends BaseFragment {
         appComponent().inject(this);
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+        compositeDisposable.add(sharedViewModel.selectedClientId.take(1).subscribe(this::setTitle));
     }
 
     @Override
@@ -83,6 +87,12 @@ public class ClientEditFragment extends BaseFragment {
             binding.clientNameEditView.setText(client.name, EDITABLE);
             binding.clientNotesEditText.setText(client.notes, EDITABLE);
         });
+    }
+
+    private void setTitle(Long clientId) {
+        int titleResId = clientId > 0 ? R.string.title_client_edit : R.string.title_client_create;
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar())
+                .setTitle(getString(titleResId));
     }
 
     @Override
