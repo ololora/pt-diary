@@ -7,17 +7,15 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
 @Entity(foreignKeys = {
-        @ForeignKey(entity = WorkoutRow.class, parentColumns = "id", childColumns = "workout_row_id", onDelete = CASCADE),
+        @ForeignKey(entity = AppLocale.class, parentColumns = "id", childColumns = "locale_id", onDelete = CASCADE),
         @ForeignKey(entity = Exercise.class, parentColumns = "id", childColumns = "exercise_id", onDelete = CASCADE)
 })
-public class WorkoutExercise extends BaseEntity {
-    @ColumnInfo(name = "workout_row_id")
-    public long workoutRowId;
+public class ExerciseNameLocale extends BaseEntity {
+    @ColumnInfo(name = "locale_id")
+    public long localeId;
 
     @ColumnInfo(name = "exercise_id")
     public long exerciseId;
 
-    public int sets;
-
-    public String comment;
+    public String name;
 }
