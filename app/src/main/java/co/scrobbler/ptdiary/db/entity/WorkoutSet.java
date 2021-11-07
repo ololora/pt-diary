@@ -19,7 +19,9 @@ public class WorkoutSet {
 
     public long reps;
 
-    public WorkoutSetUnits units;
-
     public double weight;
+
+    public long restDuration;
+
+    public long repDuration;
 }

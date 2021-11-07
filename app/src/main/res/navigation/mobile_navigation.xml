@@ -56,4 +56,8 @@
         android:name="co.scrobbler.ptdiary.ui.exercise.ExerciseEditFragment"
         android:label="@string/title_exercise_edit"
         tools:layout="@layout/exercise_edit_fragment" />
+    <fragment
+        android:id="@+id/navigation_workout_exercise_edit"
+        android:name="co.scrobbler.ptdiary.ui.workout.WorkoutExerciseEditFragment"
+        android:label="@string/title_workout_exercise_edit" />
 </navigation>
