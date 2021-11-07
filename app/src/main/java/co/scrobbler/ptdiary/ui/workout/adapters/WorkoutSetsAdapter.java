@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeAdapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import co.scrobbler.ptdiary.R;
@@ -20,8 +19,8 @@ import mobi.upod.timedurationpicker.TimeDurationPickerDialog;
 import mobi.upod.timedurationpicker.TimeDurationUtil;
 import rx.subscriptions.CompositeSubscription;
 
-public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet, WorkoutSetsAdapter.ViewHolder> {
-    private List<WorkoutSet> workoutSets = new ArrayList<>();
+public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet,
+        WorkoutSetsAdapter.ViewHolder> {
     private final CompositeSubscription compositeSubscription = new CompositeSubscription();
     private final PublishSubject<Long> selectedItemId = PublishSubject.create();
 
@@ -49,7 +48,8 @@ public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet, Workout
     }
 
     @Override
-    protected void onBindViewHolder(WorkoutSet workoutSet, @NonNull ViewHolder holder, int position) {
+    protected void onBindViewHolder(WorkoutSet workoutSet, @NonNull ViewHolder holder,
+                                    int position) {
         holder.getRepsEdit().setText(String.valueOf(workoutSet.reps));
         holder.getWeightEdit().setText(String.valueOf(workoutSet.weight));
         holder.setRepDuration(workoutSet.repDuration);
@@ -59,7 +59,8 @@ public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet, Workout
             TimeDurationPickerDialog dialog = new TimeDurationPickerDialog(v.getContext(),
                     (view, duration) -> {
                         holder.setRepDuration(duration);
-                        holder.getRepDurationEdit().setText(WorkoutSetsAdapter.ViewHolder.getDurationString(duration));
+                        holder.getRepDurationEdit()
+                                .setText(WorkoutSetsAdapter.ViewHolder.getDurationString(duration));
                     }, holder.getRepDuration());
             dialog.show();
         });
@@ -68,7 +69,8 @@ public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet, Workout
             TimeDurationPickerDialog dialog = new TimeDurationPickerDialog(v.getContext(),
                     (view, duration) -> {
                         holder.setRestDuration(duration);
-                        holder.getRestDurationEdit().setText(WorkoutSetsAdapter.ViewHolder.getDurationString(duration));
+                        holder.getRestDurationEdit()
+                                .setText(WorkoutSetsAdapter.ViewHolder.getDurationString(duration));
                     }, holder.getRestDuration());
             dialog.show();
         });
@@ -129,7 +131,6 @@ public class WorkoutSetsAdapter extends DragDropSwipeAdapter<WorkoutSet, Workout
             if (duration == 0) {
                 return "--:--";
             }
-
             return TimeDurationUtil.formatMinutesSeconds(duration);
         }
     }

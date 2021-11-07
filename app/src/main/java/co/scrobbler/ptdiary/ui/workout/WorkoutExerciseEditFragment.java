@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView;
+import com.ernestoyaquello.dragdropswiperecyclerview.DragDropSwipeRecyclerView.ListOrientation;
 import com.ernestoyaquello.dragdropswiperecyclerview.listener.OnItemSwipeListener;
 
 import java.util.ArrayList;
@@ -30,7 +30,6 @@ import co.scrobbler.ptdiary.ui.workout.adapters.WorkoutSetsAdapter;
 
 public class WorkoutExerciseEditFragment extends BaseFragment {
     private WorkoutExerciseEditFragmentBinding binding;
-
 
     public static WorkoutExerciseEditFragment newInstance() {
         return new WorkoutExerciseEditFragment();
@@ -61,10 +60,10 @@ public class WorkoutExerciseEditFragment extends BaseFragment {
             // exercise cleared
         });
 
-        binding.exerciseAutocompleteTextView.setOnItemClickListener((parent, view,
-                                                                             position, id) -> {
-            // exercise selected
-        });
+        binding.exerciseAutocompleteTextView.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    // exercise selected
+                });
 
         binding.supersetExerciseAutocompleteTextView.setAdapter(exerciseAdapter);
         binding.supersetExerciseAutocompleteTextView.setThreshold(1);
@@ -72,10 +71,10 @@ public class WorkoutExerciseEditFragment extends BaseFragment {
             // superset cleared
         });
 
-        binding.supersetExerciseAutocompleteTextView.setOnItemClickListener((parent, view,
-                                                                             position, id) -> {
-            // superset selected
-        });
+        binding.supersetExerciseAutocompleteTextView.setOnItemClickListener(
+                (parent, view, position, id) -> {
+                    // superset selected
+                });
 
         WorkoutSetsAdapter workoutSetsAdapter = new WorkoutSetsAdapter();
         ArrayList<WorkoutSet> workoutSets = new ArrayList<>();
@@ -85,15 +84,19 @@ public class WorkoutExerciseEditFragment extends BaseFragment {
         binding.workoutExerciseSetsListView.setAdapter(workoutSetsAdapter);
         binding.workoutExerciseSetsListView.setLayoutManager(new LinearLayoutManager(getContext()));
         binding.workoutExerciseSetsListView.setNestedScrollingEnabled(true);
-        binding.workoutExerciseSetsListView.setOrientation(DragDropSwipeRecyclerView.ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING);
-        binding.workoutExerciseSetsListView.disableDragDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.UP);
-        binding.workoutExerciseSetsListView.disableDragDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.DOWN);
-        binding.workoutExerciseSetsListView.disableSwipeDirection(DragDropSwipeRecyclerView.ListOrientation.DirectionFlag.RIGHT);
-        binding.workoutExerciseSetsListView.setSwipeListener((OnItemSwipeListener<WorkoutSet>) (i
-                , swipeDirection, workoutSet) -> {
-            workoutSets.remove(workoutSet);
-            return false;
-        });
+        binding.workoutExerciseSetsListView
+                .setOrientation(ListOrientation.VERTICAL_LIST_WITH_VERTICAL_DRAGGING);
+        binding.workoutExerciseSetsListView
+                .disableDragDirection(ListOrientation.DirectionFlag.UP);
+        binding.workoutExerciseSetsListView
+                .disableDragDirection(ListOrientation.DirectionFlag.DOWN);
+        binding.workoutExerciseSetsListView
+                .disableSwipeDirection(ListOrientation.DirectionFlag.RIGHT);
+        binding.workoutExerciseSetsListView.setSwipeListener(
+                (OnItemSwipeListener<WorkoutSet>) (i, swipeDirection, workoutSet) -> {
+                    workoutSets.remove(workoutSet);
+                    return false;
+                });
 
         binding.addSetView.setOnClickListener(v -> {
             workoutSets.add(new WorkoutSet());

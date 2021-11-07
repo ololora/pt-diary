@@ -11,30 +11,20 @@ import android.widget.AdapterView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.AppCompatAutoCompleteTextView;
 
 import com.google.android.material.chip.ChipDrawable;
 
 import co.scrobbler.ptdiary.R;
 
-public class AutoCompleteWithChipTextView extends androidx.appcompat.widget.AppCompatAutoCompleteTextView {
+public class AutoCompleteWithChipTextView extends AppCompatAutoCompleteTextView {
     private AdapterView.OnItemClickListener userItemClickListener;
     private OnItemRemoveListener onItemRemoveListener;
     private ChipDrawable chip;
     private Object selectedItem;
 
-    public AutoCompleteWithChipTextView(Context context) {
-        super(context);
-        initItemClickListener();
-    }
-
     public AutoCompleteWithChipTextView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-        initItemClickListener();
-    }
-
-    public AutoCompleteWithChipTextView(@NonNull Context context, @Nullable AttributeSet attrs,
-                                        int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
         initItemClickListener();
     }
 
